@@ -1,50 +1,25 @@
-\# Day 9 — Local Test Matrix
 
+## Database Migration Checks — Theory and Workflow
 
+This project currently uses React and Vite without a database or migration framework. Therefore, database migration commands are documented as a theoretical workflow and are not executed against this project.
 
-\## Project
+**Purpose:** Verify that database schema changes can be applied, tested, rolled back, and applied again safely.
 
-Contact Form — Day 8 and Day 9 PR Labs
+**Recommended workflow:**
 
+1. **Apply migration locally:** Apply the pending schema migration to a disposable local development database.
+2. **Run tests:** Run database integration tests and verify that the expected tables, columns, constraints, and application queries work correctly.
+3. **Rollback:** Revert the migration using the rollback mechanism supported by the selected migration framework. Confirm the previous schema is restored.
+4. **Re-apply:** Apply the migration again and rerun the relevant tests to confirm repeatable, consistent behavior.
 
+**Example commands:**
 
-\## Local Checks
+- Prisma: `npx prisma migrate dev`
+- Alembic: `alembic upgrade head`
+- Alembic rollback example: `alembic downgrade -1`
 
+**Expected result:** The migration applies successfully, tests pass, rollback restores the previous schema, and re-applying the migration succeeds.
 
+**Safety:** Use a disposable local database, never production data. Prisma rollback procedures differ from Alembic; use the appropriate framework-specific rollback process.
 
-| Check | Command | Purpose |
-
-|---|---|---|
-
-| Lint | `npm run lint` | Check code quality and common errors |
-
-| Tests | `npm run test` | Verify contact form behavior |
-
-| Build | `npm run build` | Confirm the production build succeeds |
-
-
-
-\## Test Cases
-
-\- Contact form renders correctly.
-
-\- Empty fields display a validation message.
-
-\- Invalid email displays an error.
-
-\- Valid form data displays a success message.
-
-\- Name field clears after successful submission.
-
-
-
-\## Known Limitations
-
-This is a frontend-only demo. The form does not send messages to a real email address or backend. Database migration checks are not applicable to this project.
-
-
-
-\## Review Notes
-
-Changes should be reviewed before merging. Do not merge your own pull request as a substitute for peer review.
-
+**Status:** The workflow above is documented for learning purposes. No database migration has been executed in this frontend-only project.
